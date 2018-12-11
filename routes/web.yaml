@@ -1,0 +1,4 @@
+blog_index:
+    path:     /{test}/{test2}
+    controller: App\Http\Controllers\IndexController::index
+    methods: [GET]
