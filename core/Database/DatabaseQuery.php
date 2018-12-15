@@ -54,16 +54,16 @@ class DatabaseQuery
         return call_user_func_array([$this->result, $name], $arguments);
     }
 
+    public function execute() {
+        $this->runQuery();
+    }
+
     private function runQuery()
     {
         if (!$this->queryExecuted) {
             $statement = $this->connection->prepare($this->query);
 
-            foreach ($this->data as $key => $value) {
-                $statement->bindParam($key, $value);
-            }
-
-            $status = $statement->execute();
+            $status = $statement->execute($this->data);
             $this->queryExecuted = true;
 
             if(!$status) {

@@ -1,4 +1,13 @@
-blog_index:
-    path:     /{test}/{test2}
+index:
+    path:       /
     controller: App\Http\Controllers\IndexController::index
+
+registration_form:
+    path:       /register
+    controller: App\Http\Controllers\RegistrationController::showRegistrationForm
     methods: [GET]
+
+register:
+    path:       /register
+    controller: App\Http\Controllers\RegistrationController::register
+    methods: [POST]

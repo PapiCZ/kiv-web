@@ -9,7 +9,7 @@ if ($handle) {
             $line = substr($line, 0, -2);
         }
 
-        if (preg_match('/^(\w+)=(.+)$/', $line)) {
+        if (preg_match('/^(\w+)=(.+)?$/', $line)) {
             putenv($line);
         }
     }

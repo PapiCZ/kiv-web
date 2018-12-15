@@ -11,13 +11,18 @@ class Router
 {
     private $matcher;
 
+    /**
+     * @var \Symfony\Component\Routing\RouteCollection
+     */
+    private $routes;
+
     public function __construct(RequestContext $context, FileLocator $fileLocator, string $fileName)
     {
         $loader = new YamlFileLoader($fileLocator);
-        $routes = $loader->load($fileName);
+        $this->routes = $loader->load($fileName);
 
         // Init UrlMatcher object
-        $this->matcher = new UrlMatcher($routes, $context);
+        $this->matcher = new UrlMatcher($this->routes, $context);
     }
 
     public function getControllerInfo(): array
@@ -35,5 +40,13 @@ class Router
         }
 
         return [$class, $method, $methodParams];
+    }
+
+    /**
+     * @return \Symfony\Component\Routing\RouteCollection
+     */
+    public function getRoutes(): \Symfony\Component\Routing\RouteCollection
+    {
+        return $this->routes;
     }
 }

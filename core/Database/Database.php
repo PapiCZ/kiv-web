@@ -50,7 +50,7 @@ class Database
 
     public static function __callStatic($name, $arguments)
     {
-        return call_user_func_array([self::$singleton, '_' . 'query'], $arguments);
+        return call_user_func_array([self::$singleton, '_' . $name], $arguments);
     }
 
     public function connect(bool $force = false)
@@ -63,8 +63,8 @@ class Database
 
     public function _query(string $query, array $data = [], bool $lazyExecution = true): DatabaseQuery
     {
-        if (!$this->db) {
-            $this->db->connect();
+        if (!$this->connection) {
+            $this->connect();
         }
 
         return new DatabaseQuery($this->connection, $query, $data, $lazyExecution);

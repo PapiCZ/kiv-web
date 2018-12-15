@@ -6,6 +6,11 @@ use Core\Router;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\RequestContext;
 
+// Init flash messages
+if (!isset($_SESSION['flash'])) {
+    $_SESSION['flash'] = [];
+}
+
 $context = new RequestContext();
 
 // Setup context
@@ -27,5 +32,5 @@ $twig = new Twig_Environment($loader);
 // Setup database
 $db = Database::createSingleDatabaseConnection(getenv('MYSQL_HOST'), getenv('MYSQL_DATABASE'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
 
-$app = new App($twig, $db);
+$app = new App($context, $router, $twig, $db);
 $app->runController($class, $method, $parameters);
