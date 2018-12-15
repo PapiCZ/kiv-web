@@ -11,7 +11,7 @@ class Router
 {
     private $matcher;
 
-    public function __construct(RequestContext $context, FileLocator $fileLocator, $fileName)
+    public function __construct(RequestContext $context, FileLocator $fileLocator, string $fileName)
     {
         $loader = new YamlFileLoader($fileLocator);
         $routes = $loader->load($fileName);
@@ -20,7 +20,7 @@ class Router
         $this->matcher = new UrlMatcher($routes, $context);
     }
 
-    public function getControllerInfo()
+    public function getControllerInfo(): array
     {
         // Find the current route
         $parameters = $this->matcher->match($_SERVER['REQUEST_URI']);

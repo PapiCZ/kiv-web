@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Core\Controller;
+use Core\Database\Database;
 use Core\View;
 
-class IndexController
+class IndexController extends Controller
 {
-    public function index($ahoj, $cus)
+    public function index()
     {
-//        echo('tady je index' . $ahoj . $cus);
 
         return new View('index.twig', ['name' => 'jop']);
     }

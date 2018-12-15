@@ -12,7 +12,8 @@
         "symfony/routing": "^4.2",
         "symfony/yaml": "^4.2",
         "symfony/config": "^4.2",
-        "twig/twig": "^2.5"
+        "twig/twig": "^2.5",
+        "ext-pdo": "*"
     },
     "autoload": {
         "psr-4": {

@@ -1,6 +1,7 @@
 <?php
 
 use Core\App;
+use Core\Database\Database;
 use Core\Router;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\RequestContext;
@@ -22,5 +23,9 @@ list($class, $method, $parameters) = $router->getControllerInfo();
 // Setup twig
 $loader = new Twig_Loader_Filesystem(__DIR__ . '/../resources/templates');
 $twig = new Twig_Environment($loader);
-$app = new App($twig);
+
+// Setup database
+$db = Database::createSingleDatabaseConnection(getenv('MYSQL_HOST'), getenv('MYSQL_DATABASE'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
+
+$app = new App($twig, $db);
 $app->runController($class, $method, $parameters);
