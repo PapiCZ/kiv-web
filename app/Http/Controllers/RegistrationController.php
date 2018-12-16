@@ -17,11 +17,11 @@ class RegistrationController extends Controller
     {
         $validator = new RegistrationValidator($_POST);
         if ($validator->validate()) {
-            User::create($_POST['username'], $_POST['name'], $_POST['surname'], $_POST['email'], $_POST['password']);
+            User::create($_POST['username'], $_POST['name'], $_POST['surname'], $_POST['email'], password_hash($_POST['password'], PASSWORD_BCRYPT));
 
-            return redirect('index')->with(['bar' => 'foo']);
+            return redirect('index') ;
         } else {
-            return redirect('register')->with(['foo' => 'bar']);
+            return redirect('register');
         }
     }
 }

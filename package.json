@@ -1,0 +1,37 @@
+{
+  "name": "kiv-web",
+  "version": "0.1.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PapiCZ/kiv-web.git"
+  },
+  "author": "Patrik Janoušek <patrikjanousek97@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/PapiCZ/kiv-web/issues"
+  },
+  "homepage": "https://github.com/PapiCZ/kiv-web#readme",
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-cache": "^1.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-embedlr": "^0.5.2",
+    "gulp-jshint": "^2.1.0",
+    "gulp-livereload": "^4.0.1",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-notify": "^3.2.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-run-command": "0.0.9",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.1",
+    "jshint": "^2.9.7",
+    "tiny-lr": "^1.1.1"
+  }
+}
