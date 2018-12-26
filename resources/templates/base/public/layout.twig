@@ -1,0 +1,23 @@
+{% extends '@project/base/base.twig' %}
+{% block body %}
+    {{ include('@project/base/navbar.twig') }}
+    <header class="header text-light" style="background-image: url({{ baseUrl ~ '/main.jpg' }})">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading" style="text-shadow: 2px 2px 5px black">
+                        <h1>{{ getenv('APP_NAME') }}</h1>
+                        <span class="subheading">{{ getenv('APP_SUBNAME') }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

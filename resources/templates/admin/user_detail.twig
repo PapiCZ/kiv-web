@@ -1,0 +1,59 @@
+{% extends '@project/base/admin/layout.twig' %}
+
+{% block content %}
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ user.name }} {{ user.surname }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ user.username }}</h6>
+                <div class="row">
+                    <div class="col-md-2">
+                        <img class="d-flex mr-3 rounded-circle" src="{{ baseUrl ~ '/storage/user/' ~ user.id }}" width="100" height="100">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-5 font-weight-bold">
+                                Jméno a příjmení:
+                            </div>
+                            <div class="col-md-7">
+                                {{ user.name }} {{ user.surname }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 font-weight-bold">
+                                Uživatelské jméno:
+                            </div>
+                            <div class="col-md-7">
+                                {{ user.username }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 font-weight-bold">
+                                Email:
+                            </div>
+                            <div class="col-md-7">
+                                {{ user.email }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 font-weight-bold">
+                                Heslo:
+                            </div>
+                            <div class="col-md-7">
+                                <a href="" class="card-link">Vyresetovat</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 font-weight-bold">
+                                Role:
+                            </div>
+                            <div class="col-md-7">
+                                {{ user.role_display_name }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

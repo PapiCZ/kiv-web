@@ -1,0 +1,25 @@
+{% set baseUrl = url('base') %}
+
+<html>
+    <head>
+        <link rel="stylesheet" href="/dist/styles/app.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{{ getenv('APP_NAME') }}</title>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        {% if session.user %}
+            {% set navbarLoggedInMessage = 'Přihlášen jako ' ~ session.user.username %}
+            {% set navbarLogoutHtml = '' %}
+        {% endif %}
+
+        {% block body %}{% endblock %}
+
+        <script src="/dist/scripts/app.min.js"></script>
+        <script>
+            const loginUrl = '{{ path('login') | raw }}'
+            const assignReviewUrl = '{{ path('admin.article.assign') }}';
+        </script>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

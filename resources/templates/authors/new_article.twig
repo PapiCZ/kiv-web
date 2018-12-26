@@ -1,0 +1,133 @@
+{% extends '@project/base/authors/layout.twig' %}
+
+{% block content %}
+    <div class="col-md-8 offset-md-2">
+        {% if not empty_html(article.note) %}
+            <div class="form-group">
+                <label for="note">Poznámka administrátora</label>
+                <div id="note" class="alert alert-warning">
+                    {{ article.note | raw }}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if not article.published %}
+            <form id="article-form" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">Nadpis</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Nadpis" value="{{ validator.reports.title.oldValue ?? article.title }}">
+                </div>
+                <div class="form-group">
+                    {% if validator.reports.title.errorMessages %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in validator.reports.title.errorMessages %}
+                                {{ message }}<br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="perex">Perex</label>
+                    <textarea type="text" class="form-control" id="perex" name="perex" rows="4" maxlength="255" placeholder="Začněte psát...">{{ validator.reports.perex.oldValue ?? article.perex }}</textarea>
+                </div>
+                <div class="form-group">
+                    {% if validator.reports.perex.errorMessages %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in validator.reports.perex.errorMessages %}
+                                {{ message }}<br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="image">Úvodní obrázek</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="image" name="image" accept="image/x-png,image/jpeg">
+                        <label class="custom-file-label">{{ validator.reports.image.oldValue ?? article.image }}</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {% if validator.reports.image.errorMessages %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in validator.reports.image.errorMessages %}
+                                {{ message }}<br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="text">Text</label>
+                    <textarea type="text" class="form-control ckeditor" id="content" name="content">{{ validator.reports.content.oldValue ?? article.content }}</textarea>
+                </div>
+                <div class="form-group">
+                    {% if validator.reports.content.errorMessages %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in validator.reports.content.errorMessages %}
+                                {{ message }}<br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="">Dokumenty</label>
+                </div>
+                <div id="document-file-template" class="d-none">
+                    <div class="form-group row">
+                        <div class="col-md-10">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="document_files[]">
+                                <label class="custom-file-label">Vyberte soubor...</label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-danger delete-document">Smazat</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="documents">
+                    {% if edit %}
+                        {% for document in article.documents %}
+                            <div class="form-group row">
+                                <div class="col-md-10">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="document_files[]">
+                                        <label class="custom-file-label">{{ document.path }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-danger delete-document" data-id="{{ document.id }}">Smazat</button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {% if validator.reports['document_files'].errorMessages %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for message in validator.reports['document_files'].errorMessages %}
+                                {{ message }}<br>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="form-group float-right">
+                    <button type="button" id="add-document-input" class="btn btn-primary">Přidat dokument</button>
+                </div>
+                <div class="clearfix"></div>
+                <hr>
+                {% if not edit %}
+                    <button type="submit" class="btn btn-primary">Podat příspěvek ke schválení</button>
+                {% else %}
+                    <button type="submit" class="btn btn-warning">Podat příspěvek k opětovnému schválení</button>
+                {% endif %}
+            </form>
+        {% else %}
+            <div class="alert alert-info"><i class="fa fa-info-circle"></i> Příspěvek již byl publikován, a proto ho není možné upravit</div>
+            {{ include('@project/mixins/article.twig') }}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/dist/scripts/ckeditor.min.js"></script>
+{% endblock %}

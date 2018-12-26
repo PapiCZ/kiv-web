@@ -1,0 +1,29 @@
+{% extends '@project/base/public/text-layout.twig' %}
+
+{% block text_content %}
+    {{ include('@project/mixins/article.twig') }}
+
+    <hr>
+
+    <ul class="pagination justify-content-center mb-4">
+        {% if prev_article %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path('article', {id: prev_article.id}) }}">← Předchozí</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link">← Předchozí</a>
+            </li>
+        {% endif %}
+        {% if next_article %}
+            <li class="page-item">
+                <a class="page-link" href="{{ path('article', {id: next_article.id}) }}">Další →</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link">Další →</a>
+            </li>
+        {% endif %}
+
+    </ul>
+{% endblock %}

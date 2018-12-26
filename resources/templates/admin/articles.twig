@@ -1,0 +1,28 @@
+{% extends '@project/base/admin/layout.twig' %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Název</th>
+                        <th>Perex</th>
+                        <th>Hodnocení</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                        <tr>
+                            <td class="align-middle">{{ article.title }}</td>
+                            <td class="align-middle">{{ article.perex }}</td>
+                            <td class="align-middle">9.81 / 10</td>
+                            <td class="align-middle"><a href="{{ path('admin.article.detail', {'id': article.id}) }}" class="btn btn-primary">Detail</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

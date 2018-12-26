@@ -1,0 +1,30 @@
+{% extends '@project/base/reviewers/layout.twig' %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr class="d-flex">
+                        <th class="col-auto"><i class="fa fa-hashtag"></i></th>
+                        <th class="col-3">Název</th>
+                        <th class="col-4">Perex</th>
+                        <th class="col-2">Hodnocení</th>
+                        <th class="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                        <tr class="d-flex">
+                            <td class="col-auto align-middle">{{ article.id }}</td>
+                            <td class="col-3 align-middle">{{ article.title }}</td>
+                            <td class="col-4 align-middle">{{ article.perex }}</td>
+                            <td class="col-2 align-middle">{{ article.score }} / 10</td>
+                            <td class="col align-middle text-right"><a href="{{ path('reviewers.article.review', {'id': article.id}) }}" class="btn btn-primary">Zrecenzovat</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

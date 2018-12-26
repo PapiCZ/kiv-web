@@ -1,0 +1,30 @@
+{% extends '@project/base/admin/layout.twig' %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><i class="fa fa-hashtag"></i></th>
+                        <th>Uživatelské jméno</th>
+                        <th>Jméno a příjmení</th>
+                        <th>Email</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td class="align-middle">{{ user.id }}</td>
+                        <td class="align-middle">{{ user.username }}</td>
+                        <td class="align-middle">{{ user.name }} {{ user.surname }}</td>
+                        <td class="align-middle">{{ user.email }}</td>
+                        <td class="align-middle"><a href="{{ path('admin.user.detail', {'id': user.id}) }}" class="btn btn-primary">Detail</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

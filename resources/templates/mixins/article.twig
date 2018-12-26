@@ -1,0 +1,25 @@
+<h1 class="mt-4">{{ article.title }}</h1>
+
+<p class="lead">
+    od <a href="#">{{ article.name }} {{ article.surname }} ({{ article.username }})</a>
+</p>
+
+<hr>
+
+<p>Zvěřejněno {{ article.created_at|date('d.m.Y H:i') }}{% if article.created_at != article.updated_at %}, Naposledy aktualizováno: {{ article.updated_at|date('d.m.Y H:i') }}{% endif %}</p>
+
+<hr>
+
+<img class="img-fluid rounded" src="{{ baseUrl ~ '/storage/' ~ 'article_images/' ~ article.id ~ '/' ~ article.image }}">
+
+<hr>
+
+{{ article.perex }}
+
+<hr>
+
+{{ article.content | raw }}
+
+<script>
+    const articleId = '{{ article.id }}'
+</script>

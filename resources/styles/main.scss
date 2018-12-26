@@ -1,0 +1,28 @@
+@import "~bootstrap/scss/bootstrap";
+@import "variables";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+
+.popover {
+    max-width: 100%;
+}
+
+.btn-space-inline {
+    margin: 0 20px;
+}
+
+.content {
+    padding: 50px 0;
+}
+
+.ck-editor__editable {
+    min-height: 600px;
+}
+
+.custom-file-label::after {
+    content: "Procházet";
+}
+
+.main-container {
+    margin-top: 100px;
+}

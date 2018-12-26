@@ -1,0 +1,81 @@
+{% extends '@project/base/admin/layout.twig' %}
+
+{% block content %}
+    <div class="col-md-8 offset-md-2">
+        {{ include('@project/mixins/article.twig') }}
+
+        <table id="reviewers-table" class="table">
+            <thead>
+                <tr>
+                    <th>Recenzent</th>
+                    <th>Téma</th>
+                    <th>Obsah</th>
+                    <th>Čitelnost</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reviewer in reviewers %}
+                    <tr>
+                        <td class="align-middle">{{ reviewer.name }} {{ reviewer.surname }} ({{ reviewer.username }})</td>
+                        <td class="align-middle">{{ reviewer.score ? reviewer.score ~ ' / 10' : 'Nehodnoceno' }}</td>
+                        <td class="align-middle">{{ reviewer.score ? reviewer.score ~ ' / 10' : 'Nehodnoceno' }}</td>
+                        <td class="align-middle">{{ reviewer.score ? reviewer.score ~ ' / 10' : 'Nehodnoceno' }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-md-9">
+                <select class="custom-select" name="user-id" id="user-id">
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.name }} {{ user.surname }} ({{ user.username }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="button" id="assign-to-review" class="btn btn-success">Přidělit recenzi</button>
+            </div>
+        </div>
+
+        <hr>
+
+        <form method="post">
+            <div class="form-group">
+                <label for="note">Poznámka (zobrazuje se i autorovi)</label>
+                {% if not (article.returned or atricle.publushed) %}
+                    <textarea name="note" id="note" class="ckeditor">{{ article.note }}</textarea>
+                {% else %}
+                    {% if empty_html(article.note) %}
+                        <p class="font-italic">Poznámka k příspěvku je prázdná</p>
+                    {% else %}
+                        <p>{{ article.note | raw }}</p>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            {% if article.returned %}
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i> Příspěvek byl vrácen k přepracování
+                </div>
+                <button type="submit" class="btn btn-danger" name="action" value="delete">Smazat</button>
+            {% elseif article.published %}
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i> Příspěvek byl publikován
+                </div>
+                <button type="submit" class="btn btn-danger" name="action" value="delete">Smazat</button>
+            {% else %}
+                <div>
+                    <button type="submit" class="btn btn-primary" name="action" value="publish">Publikovat</button>
+                    <button type="submit" class="btn btn-warning" name="action" value="return">Vrátit k přepracování</button>
+                    <button type="submit" class="btn btn-danger" name="action" value="delete">Smazat</button>
+                </div>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/dist/scripts/ckeditor.min.js"></script>
+{% endblock %}

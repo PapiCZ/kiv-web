@@ -1,0 +1,36 @@
+{% extends '@project/base/authors/layout.twig' %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr class="d-flex">
+                        <th class="col-auto"><i class="fa fa-hashtag"></i></th>
+                        <th class="col-3">Název</th>
+                        <th class="col-5">Perex</th>
+                        <th class="col-2">Stav</th>
+                        <th class="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                        <tr class="d-flex">
+                            <td class="col-auto align-middle">{{ article.id }}</td>
+                            <td class="col-3 align-middle">{{ article.title }}</td>
+                            <td class="col-5 align-middle">{{ article.perex }}</td>
+                            {% if article.published %}
+                                <td class="col-2 align-middle">Publikováno</td>
+                            {% elseif article.returned %}
+                                <td class="col-2 align-middle">Vráceno k přepracování</td>
+                            {% else %}
+                                <td class="col-2 align-middle">Čeká na vyřízení</td>
+                            {% endif %}
+                            <td class="col align-middle text-right"><a href="{{ path('authors.article.edit.form', {'id': article.id}) }}" class="btn btn-primary">Upravit</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

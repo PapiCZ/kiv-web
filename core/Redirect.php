@@ -12,16 +12,23 @@ class Redirect
     /**
      * @var array
      */
-    private $data = [];
+    private $flashData = [];
+
+    /**
+     * @var array
+     */
+    private $args;
 
     /**
      * Redirect constructor.
      *
      * @param string $routeName
+     * @param array  $args
      */
-    public function __construct(string $routeName)
+    public function __construct(string $routeName, array $args = [])
     {
         $this->routeName = $routeName;
+        $this->args = $args;
     }
 
     /**
@@ -30,7 +37,18 @@ class Redirect
      */
     public function with(array $data)
     {
-        $this->data = $data;
+        $this->flashData = $data;
+
+        return $this;
+    }
+
+    /**
+     * @param array $validatorReports
+     * @return $this
+     */
+    public function withValidatorReports(array $validatorReports)
+    {
+        $this->with(['validator' => ['reports' => $validatorReports]]);
 
         return $this;
     }
@@ -46,8 +64,16 @@ class Redirect
     /**
      * @return array
      */
-    public function getData()
+    public function getFlashData()
     {
-        return $this->data;
+        return $this->flashData;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArgs(): array
+    {
+        return $this->args;
     }
 }

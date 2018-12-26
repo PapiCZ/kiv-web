@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use Core\Controller;
 use Core\View;
 
@@ -9,6 +10,8 @@ class IndexController extends Controller
 {
     public function index()
     {
-        return new View('index.twig', ['name' => 'jop']);
+        $this->data['articles'] = Article::all();
+
+        return new View('index.twig', $this->data);
     }
 }

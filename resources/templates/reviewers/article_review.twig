@@ -1,0 +1,62 @@
+{% extends '@project/base/reviewers/layout.twig' %}
+
+{% block content %}
+    <div class="col-md-8 offset-md-2">
+        {{ include('@project/mixins/article.twig') }}
+
+        <hr>
+
+        <div>
+            <form method="post">
+                <div class="form-group">
+                    <label for="score">Hodnocení tématu</label>
+                    <div class="input-group">
+                        <select id="score-topic" name="score_topic" class="custom-select" aria-describedby="max-score">
+                            {% for i in range(0, 10) %}
+                                <option value="{{ i }}" {{ article.score_topic == i ? 'selected' : '' }}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="max-score">/ 10</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="score">Hodnocení obsahu</label>
+                    <div class="input-group">
+                        <select id="score-content" name="score_content" class="custom-select" aria-describedby="max-score">
+                            {% for i in range(0, 10) %}
+                                <option value="{{ i }}" {{ article.score_content == i ? 'selected' : '' }}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="max-score">/ 10</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="score">Hodnocení čitelnosti</label>
+                    <div class="input-group">
+                        <select id="score-readability" name="score_readability" class="custom-select" aria-describedby="max-score">
+                            {% for i in range(0, 10) %}
+                                <option value="{{ i }}" {{ article.score_readability == i ? 'selected' : '' }}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="max-score">/ 10</span>
+                        </div>
+                    </div>
+                </div>
+                {% if article.score_topic == null %}
+                    <button type="submit" class="btn btn-primary">Přidat hodnocení</button>
+                {% else %}
+                    <button type="submit" class="btn btn-warning">Upravit hodnocení</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/dist/scripts/ckeditor.min.js"></script>
+{% endblock %}

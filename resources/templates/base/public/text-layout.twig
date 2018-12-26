@@ -1,0 +1,20 @@
+{% extends '@project/base/public/layout.twig' %}
+
+{% block content %}
+    <div class="col-lg-8">
+        {% block text_content %}{% endblock %}
+    </div>
+    <div class="col-md-4">
+        <div class="card my-4">
+            <h5 class="card-header">Vyhledávání</h5>
+            <div class="card-body">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Začněte psát...">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+username: uživatelské jméno
+name: jméno
+surname: příjmení
+email: email
+password: heslo
+password_again: heslo znovu
+document_files: dokument
+content: text
+title: nadpis
+image: obrázek

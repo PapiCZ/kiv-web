@@ -6,13 +6,14 @@ use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Routing\RouteCollection;
 
 class Router
 {
     private $matcher;
 
     /**
-     * @var \Symfony\Component\Routing\RouteCollection
+     * @var RouteCollection
      */
     private $routes;
 
@@ -43,9 +44,9 @@ class Router
     }
 
     /**
-     * @return \Symfony\Component\Routing\RouteCollection
+     * @return RouteCollection
      */
-    public function getRoutes(): \Symfony\Component\Routing\RouteCollection
+    public function getRoutes(): RouteCollection
     {
         return $this->routes;
     }

@@ -1,13 +1,115 @@
+################
+## PUBLIC WEB ##
+################
+
 index:
     path:       /
     controller: App\Http\Controllers\IndexController::index
 
-registration_form:
+# Only for template system purposes
+base:
+    path:       /
+
+article:
+    path:       /article/{id}
+    controller: App\Http\Controllers\ArticleController::showArticle
+
+login:
+    path:       /login
+    controller: App\Http\Controllers\LoginController::login
+    methods:    [POST]
+
+logout:
+    path:       /logout
+    controller: App\Http\Controllers\LoginController::logout
+
+registration.form:
     path:       /register
     controller: App\Http\Controllers\RegistrationController::showRegistrationForm
-    methods: [GET]
+    methods:    [GET]
 
 register:
     path:       /register
     controller: App\Http\Controllers\RegistrationController::register
-    methods: [POST]
+    methods:    [POST]
+
+about:
+    path:       /about
+    controller: App\Http\Controllers\AboutController::about
+
+####################
+## ADMINISTRATION ##
+####################
+
+admin.users:
+    path:       /admin/users
+    controller: App\Http\Controllers\Admin\UsersController::showUsers
+
+admin.user.detail:
+    path:       /admin/user/{id}
+    controller: App\Http\Controllers\Admin\UsersController::showUserDetail
+
+admin.articles:
+    path:       /admin/articles
+    controller: App\Http\Controllers\Admin\ArticlesController::showArticles
+
+admin.article.detail:
+    path:       /admin/article/{id}
+    controller: App\Http\Controllers\Admin\ArticlesController::showArticleDetail
+    methods:    [GET]
+
+admin.article.assign:
+    path:       /admin/article/assign-reviewer
+    controller: App\Http\Controllers\Admin\ArticlesController::assignReviewer
+    methods:    [POST]
+
+admin.article.detail.submit:
+    path:       /admin/article/{id}
+    controller: App\Http\Controllers\Admin\ArticlesController::submitDetail
+    methods:    [POST]
+
+#################
+## FOR AUTHORS ##
+#################
+
+authors.articles.my:
+    path:       /authors/articles/my
+    controller: App\Http\Controllers\Authors\ArticlesController::showMyArticles
+
+authors.article.new:
+    path:       /authors/article/new
+    controller: App\Http\Controllers\Authors\ArticlesController::showNewArticleForm
+    methods:    [GET]
+
+authors.article.create:
+    path:       /authors/article/new
+    controller: App\Http\Controllers\Authors\ArticlesController::createNewArticle
+    methods:    [POST]
+
+authors.article.edit.form:
+    path:       /authors/article/edit/{id}
+    controller: App\Http\Controllers\Authors\ArticlesController::showEditArticleForm
+    methods:    [GET]
+
+authors.article.edit:
+    path:       /authors/article/edit/{id}
+    controller: App\Http\Controllers\Authors\ArticlesController::editArticle
+    methods:    [POST]
+
+###################
+## FOR REVIEWERS ##
+###################
+
+reviewers.articles:
+    path:       /reviewers/articles
+    controller: App\Http\Controllers\Reviewers\ArticlesController::showArticles
+
+reviewers.article.review:
+    path:       /reviewers/article-review/{id}
+    controller: App\Http\Controllers\Reviewers\ArticlesController::showArticleReviewForm
+    methods:    [GET]
+
+reviewers.article.review.submit:
+    path:       /reviewers/article-review/{id}
+    controller: App\Http\Controllers\Reviewers\ArticlesController::saveArticleReview
+    methods:    [POST]

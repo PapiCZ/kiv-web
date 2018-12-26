@@ -1,0 +1,80 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light">
+    <div class="col-md-10 offset-md-1">
+        <a class="navbar-brand" href="{{ path('index') }}">{{ getenv('APP_NAME') }}</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse float-right">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('index') }}">Hlavní stránka</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('about') }}">O konferenci</a>
+                </li>
+
+                {% if session.user.roles.admin %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pro administrátory
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('admin.users') }}">Uživatelé</a>
+                            <a class="dropdown-item" href="{{ path('admin.articles') }}">Příspěvky</a>
+                        </div>
+                    </li>
+                {% endif %}
+                {% if session.user.roles.author %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pro autory
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('authors.articles.my') }}">Moje příspěvky</a>
+                            <a class="dropdown-item" href="{{ path('authors.article.new') }}">Nový příspěvek</a>
+                        </div>
+                    </li>
+                {% endif %}
+
+                {% if session.user.roles.reviewer %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Pro recenzenty
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('reviewers.articles') }}">Články k zrecenzování</a>
+                        </div>
+                    </li>
+                {% endif %}
+
+                {% if session.user %}
+                    <li class="nav-item"><a class="nav-link" href="{{ path('logout') }}">Odhlásit se (přihlášen jako {{ session.user.username }})</a></li>
+                {% else %}
+                    <li class="nav-item">
+                        <button type="button" id="login-popover-btn" class="btn btn-space-inline" data-toggle="popover" data-placement="bottom" data-trigger="click">Přihlášení</button>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-dark" href="{{ path('registration.form') }}">Registrovat se</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        <div id="login-popover" style="display: none;">
+            <form class="login-form" method="post">
+                <div class="form-group">
+                    <label for="login-username">Uživatelské jméno</label>
+                    <input type="text" class="form-control" id="login-username" name="username" placeholder="Uživatelské jméno">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Heslo</label>
+                    <input type="password" class="form-control" id="login-password" name="password" placeholder="Heslo">
+                </div>
+                <div id="login-error-alert" class="alert alert-danger d-none" role="alert">
+                    Zadané uživatelské jméno<br>nebo heslo není správné
+                </div>
+                <input type="submit" id="login-submit" class="btn btn-block btn-primary" value="Přihlásit se">
+            </form>
+        </div>
+    </div>
+</nav>

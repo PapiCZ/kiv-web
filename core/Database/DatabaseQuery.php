@@ -2,7 +2,7 @@
 
 namespace Core\Database;
 
-use DatabaseQueryException;
+use Core\Database\Exceptions\DatabaseQueryException;
 use MultipleQueryRunException;
 use PDO;
 
@@ -47,14 +47,15 @@ class DatabaseQuery
 
     public function __call($name, $arguments)
     {
-        if(!$this->queryExecuted && ($name == 'fetch' || $name == 'fetchAll')) {
-            $this->runQuery();
+        if (!$this->queryExecuted && ($name == 'fetch' || $name == 'fetchAll')) {
+            $this->execute();
         }
 
         return call_user_func_array([$this->result, $name], $arguments);
     }
 
-    public function execute() {
+    public function execute()
+    {
         $this->runQuery();
     }
 
@@ -63,14 +64,14 @@ class DatabaseQuery
         if (!$this->queryExecuted) {
             $statement = $this->connection->prepare($this->query);
 
-            $status = $statement->execute($this->data);
-            $this->queryExecuted = true;
+            if($statement) {
+                $statement->setFetchMode(PDO::FETCH_ASSOC);
 
-            if(!$status) {
-                throw new DatabaseQueryException($this->connection->errorInfo(), $this->connection->errorCode());
+                $statement->execute($this->data);
+                $this->queryExecuted = true;
+
+                $this->result = $statement;
             }
-
-            $this->result = $statement;
         }
     }
 }

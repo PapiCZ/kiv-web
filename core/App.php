@@ -44,16 +44,25 @@ class App
         if ($result instanceof View) {
             $data = $result->getData();
 
-            // Add flash messages
-            $data['flash'] = $_SESSION['flash'];
+            // Add basic data to twig
+            $data['session'] = $_SESSION;
+
+            // Add alias for validator reports
+            if (isset($_SESSION['flash']['validator'])) {
+                $data['validator'] = $_SESSION['flash']['validator'];
+            }
+
+            // Clear flash data
             $_SESSION['flash'] = [];
 
             echo $this->templateRenderer->render($result->getTemplate(), $data);
         } elseif ($result instanceof Redirect) {
-            $_SESSION['flash'] = $result->getData();
+            $_SESSION['flash'] = $result->getFlashData();
 
             $urlGenerator = new UrlGenerator($this->router->getRoutes(), $this->requestContext);
-            header('Location: ' . $urlGenerator->generate($result->getRouteName()), true);
+            header('Location: ' . $urlGenerator->generate($result->getRouteName(), $result->getArgs()), true);
+        } elseif ($result instanceof Response) {
+            echo $result->serialize();
         }
     }
 }

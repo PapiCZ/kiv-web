@@ -57,7 +57,9 @@ class Database
     {
         if (!$this->connection || $force) {
             $this->connection = new PDO("mysql:host={$this->host};dbname={$this->database}", $this->user, $this->password);
-            $this->connection->query('SET NAMES utf8');
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->connection->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES utf8");
+            $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         }
     }
 
@@ -68,5 +70,10 @@ class Database
         }
 
         return new DatabaseQuery($this->connection, $query, $data, $lazyExecution);
+    }
+
+    public function _lastInsertId()
+    {
+        return $this->connection->lastInsertId();
     }
 }

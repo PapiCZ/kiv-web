@@ -1,0 +1,6 @@
+required: Pole %s je povinné
+minlen: Pole %s musí být alespoň %d znaků dlouhé
+maxlen: Pole %s může být maximálně %d znaků dlouhé
+same_as: Pole %s musí být stejné jako %s
+email: Pole %s musí obsahovat validní emailovou adresu
+file_maxsize: Soubor %s přesáhl maximální povolenou velikost %dMB
