@@ -21,18 +21,6 @@ class User
             ])->fetch();
     }
 
-    public static function getWithRoles(int $id)
-    {
-        return Database::query(
-            'SELECT u.*, r.name AS role_name, r.display_name AS role_display_name FROM users u 
-            INNER JOIN user_role ur on u.id = ur.user_id
-            INNER JOIN roles r on ur.role_id = r.id
-            WHERE u.id = :id LIMIT 1',
-            [
-                'id' => $id,
-            ])->fetch();
-    }
-
     public static function create($username, $name, $surname, $email, $password)
     {
         return Database::query(
@@ -92,11 +80,63 @@ class User
 
     public static function assignRole($userId, $roleId)
     {
-        Database::query(
+        return Database::query(
             'INSERT INTO user_role (user_id, role_id) VALUES(:user_id, :role_id)',
             [
                 'user_id' => $userId,
                 'role_id' => $roleId,
+            ]
+        )->execute();
+    }
+
+    public static function deleteRole($userId, $roleId)
+    {
+        return Database::query(
+            'DELETE FROM user_role WHERE user_id = :user_id AND role_id = :role_id',
+            [
+                'user_id' => $userId,
+                'role_id' => $roleId,
+            ]
+        )->execute();
+    }
+
+    public static function setResetPasswordToken($userId, $resetPasswordToken)
+    {
+        return Database::query(
+            'UPDATE users SET password_reset_token = :password_reset_token WHERE id = :user_id',
+            [
+                'user_id'              => $userId,
+                'password_reset_token' => $resetPasswordToken,
+            ]
+        )->execute();
+    }
+
+    public static function ban($userId)
+    {
+        return Database::query(
+            'UPDATE users SET banned = 1 WHERE id = :user_id',
+            [
+                'user_id' => $userId,
+            ]
+        )->execute();
+    }
+
+    public static function unban($userId)
+    {
+        return Database::query(
+            'UPDATE users SET banned = 0 WHERE id = :user_id',
+            [
+                'user_id' => $userId,
+            ]
+        )->execute();
+    }
+
+    public static function delete($userId)
+    {
+        return Database::query(
+            'DELETE FROM users WHERE id = :user_id',
+            [
+                'user_id' => $userId,
             ]
         )->execute();
     }

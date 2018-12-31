@@ -37,22 +37,51 @@
                         </div>
                         <div class="row">
                             <div class="col-md-5 font-weight-bold">
-                                Heslo:
-                            </div>
-                            <div class="col-md-7">
-                                <a href="" class="card-link">Vyresetovat</a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-5 font-weight-bold">
                                 Role:
                             </div>
                             <div class="col-md-7">
-                                {{ user.role_display_name }}
+                                {% for r in user.roles %}
+                                    {{ r.display_name }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <hr>
+
+                <h2>Správa rolí</h2>
+                <form action="{{ path('admin.user.update-roles', {id: user.id}) }}" method="post">
+                    <div class="form-group row">
+                        {% for role in roles %}
+                            {% set user_has_role = false %}
+                            {% for r in user.roles %}
+                                {% if r.id == role.id %}
+                                    {% set user_has_role = true %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="roles[]" value="{{ role.name }}" id="role_{{ role.name }}" {% if user_has_role %}checked{% endif %}>
+                                    <label class="form-check-label" for="role_{{ role.name }}">
+                                        {{ role.display_name }}
+                                    </label>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-success">Uložit</button>
+                </form>
+
+                <hr>
+
+                {% if user.banned %}
+                    <a href="{{ path('admin.user.unban', {id: user.id}) }}" class="btn btn-success">Odblokovat</a>
+                {% else %}
+                    <a href="{{ path('admin.user.ban', {id: user.id}) }}" class="btn btn-danger">Zablokovat</a>
+                {% endif %}
+
+                <a href="{{ path('admin.user.delete', {id: user.id}) }}" class="btn btn-outline-danger">Smazat</a>
             </div>
         </div>
     </div>

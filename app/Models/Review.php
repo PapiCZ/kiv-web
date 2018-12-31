@@ -31,4 +31,14 @@ class Review
             ]
         )->execute();
     }
+
+    public static function delete($id)
+    {
+        return Database::query(
+            'DELETE FROM reviews WHERE id = :review_id',
+            [
+                'review_id' => $id,
+            ]
+        )->execute();
+    }
 }

@@ -8,19 +8,20 @@ $(function () {
 
             $.ajax({
                 type: 'POST',
-                url: assignReviewUrl.replace(),
+                url: assignReviewUrl,
                 data: {
                     article_id: articleId,
                     user_id: userId
                 },
                 success: function (response) {
                     if (response.status == 'success') {
-                        $('#reviewers-table').children('tbody').append(
+                        $('#reviews-table').children('tbody').append(
                             '<tr>' +
                             '<td class="align-middle">' + selectedOption.text() + '</td>' +
                             '<td class="align-middle">Nehodnoceno</td>' +
                             '<td class="align-middle">Nehodnoceno</td>' +
                             '<td class="align-middle">Nehodnoceno</td>' +
+                            '<td class="align-middle"><button type="button" class="btn btn-danger delete-review" data-id="' + response.id + '"><i class="fa fa-times"></i></button></td>' +
                             '</tr>'
                         )
 
@@ -31,5 +32,22 @@ $(function () {
                 dataType: 'json'
             });
         }
+    });
+
+    $('#reviews-table').on('click', '.delete-review', function () {
+        let element = $(this)
+        $.ajax({
+            type: 'POST',
+            url: deleteReviewUrl,
+            data: {
+                id: $(this).attr('data-id'),
+            },
+            success: function (response) {
+                if (response.status) {
+                    element.parentsUntil('tr').parent().remove()
+                }
+            },
+            dataType: 'json'
+        });
     });
 })

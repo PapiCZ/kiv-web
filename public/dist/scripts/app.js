@@ -15304,14 +15304,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
       _jquery.default.ajax({
         type: 'POST',
-        url: assignReviewUrl.replace(),
+        url: assignReviewUrl,
         data: {
           article_id: articleId,
           user_id: userId
         },
         success: function success(response) {
           if (response.status == 'success') {
-            (0, _jquery.default)('#reviewers-table').children('tbody').append('<tr>' + '<td class="align-middle">' + selectedOption.text() + '</td>' + '<td class="align-middle">Nehodnoceno</td>' + '<td class="align-middle">Nehodnoceno</td>' + '<td class="align-middle">Nehodnoceno</td>' + '</tr>');
+            (0, _jquery.default)('#reviews-table').children('tbody').append('<tr>' + '<td class="align-middle">' + selectedOption.text() + '</td>' + '<td class="align-middle">Nehodnoceno</td>' + '<td class="align-middle">Nehodnoceno</td>' + '<td class="align-middle">Nehodnoceno</td>' + '<td class="align-middle"><button type="button" class="btn btn-danger delete-review" data-id="' + response.id + '"><i class="fa fa-times"></i></button></td>' + '</tr>');
             selectedOption.prev().attr('selected', 'selected');
             selectedOption.remove();
           }
@@ -15319,6 +15319,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         dataType: 'json'
       });
     }
+  });
+  (0, _jquery.default)('#reviews-table').on('click', '.delete-review', function () {
+    var element = (0, _jquery.default)(this);
+
+    _jquery.default.ajax({
+      type: 'POST',
+      url: deleteReviewUrl,
+      data: {
+        id: (0, _jquery.default)(this).attr('data-id')
+      },
+      success: function success(response) {
+        if (response.status) {
+          element.parentsUntil('tr').parent().remove();
+        }
+      },
+      dataType: 'json'
+    });
   });
 });
 

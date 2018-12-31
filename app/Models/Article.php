@@ -68,6 +68,35 @@ class Article
             ])->fetch();
     }
 
+    public static function completeReviewsForArticle($articleId)
+    {
+        return Database::query(
+            'SELECT * FROM reviews r 
+            INNER JOIN articles a on r.article_id = a.id
+            WHERE a.id = :article_id
+              AND r.score_topic IS NOT NULL
+              AND r.score_content IS NOT NULL
+              AND r.score_readability IS NOT NULL',
+            [
+                'article_id' => $articleId,
+            ]
+        )->fetchAll();
+    }
+
+    public static function getRatingForArticle($articleId)
+    {
+        return Database::query(
+            'SELECT ROUND(AVG(score), 2) AS total_score FROM
+                       (
+                         SELECT ROUND((r.score_topic + r.score_content + r.score_readability) / 3, 2) AS score FROM reviews r
+                         WHERE r.article_id = :article_id
+                         ) AS score_per_review',
+            [
+                'article_id' => $articleId,
+            ]
+        )->fetch();
+    }
+
     public static function previous(int $id)
     {
         return Database::query(

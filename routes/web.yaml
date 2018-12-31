@@ -68,9 +68,31 @@ admin.article.detail.submit:
     controller: App\Http\Controllers\Admin\ArticlesController::submitDetail
     methods:    [POST]
 
-#################
-## FOR AUTHORS ##
-#################
+admin.user.update-roles:
+    path:       /admin/user/{id}/update-roles
+    controller: App\Http\Controllers\Admin\UsersController::updateRoles
+    methods:    [POST]
+
+admin.user.ban:
+    path:       /admin/user/{id}/ban
+    controller: App\Http\Controllers\Admin\UsersController::ban
+
+admin.user.unban:
+    path:       /admin/user/{id}/unban
+    controller: App\Http\Controllers\Admin\UsersController::unban
+
+admin.user.delete:
+    path:       /admin/user/{id}/delete
+    controller: App\Http\Controllers\Admin\UsersController::delete
+
+admin.review.delete:
+    path:       /admin/review/delete
+    controller: App\Http\Controllers\Admin\ReviewsController::delete
+    methods:    [POST]
+
+      #################
+      ## FOR AUTHORS ##
+      #################
 
 authors.articles.my:
     path:       /authors/articles/my

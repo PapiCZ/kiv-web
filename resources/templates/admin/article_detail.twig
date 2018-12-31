@@ -4,7 +4,7 @@
     <div class="col-md-8 offset-md-2">
         {{ include('@project/mixins/article.twig') }}
 
-        <table id="reviewers-table" class="table">
+        <table id="reviews-table" class="table">
             <thead>
                 <tr>
                     <th>Recenzent</th>
@@ -21,6 +21,9 @@
                         <td class="align-middle">{{ reviewer.score ? reviewer.score ~ ' / 10' : 'Nehodnoceno' }}</td>
                         <td class="align-middle">{{ reviewer.score ? reviewer.score ~ ' / 10' : 'Nehodnoceno' }}</td>
                         <td class="align-middle">{{ reviewer.score ? reviewer.score ~ ' / 10' : 'Nehodnoceno' }}</td>
+                        <td>
+                            <button type="button" class="btn btn-danger delete-review" data-id="{{ reviewer.id }}"><i class="fa fa-times"></i></button>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -67,7 +70,11 @@
                 <button type="submit" class="btn btn-danger" name="action" value="delete">Smazat</button>
             {% else %}
                 <div>
-                    <button type="submit" class="btn btn-primary" name="action" value="publish">Publikovat</button>
+                    {% if validReviews|length >= 3 %}
+                        <button type="submit" class="btn btn-primary" name="action" value="publish">Publikovat</button>
+                    {% else %}
+                        <p class="alert alert-warning">Pro publikování příspěvku jsou nutné alespoň 3 recenze</p>
+                    {% endif %}
                     <button type="submit" class="btn btn-warning" name="action" value="return">Vrátit k přepracování</button>
                     <button type="submit" class="btn btn-danger" name="action" value="delete">Smazat</button>
                 </div>
