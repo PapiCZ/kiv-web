@@ -40,7 +40,7 @@ class Router
             }
         }
 
-        return [$class, $method, $methodParams];
+        return [$class, $method, $methodParams, $parameters['_route']];
     }
 
     /**

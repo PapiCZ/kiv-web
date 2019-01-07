@@ -70,17 +70,17 @@ class ValidatorReport
     }
 
     /**
-     * @return string|null
+     * @return string|array|null
      */
-    public function getOldValue(): ?string
+    public function getOldValue()
     {
         return $this->oldValue;
     }
 
     /**
-     * @param string $oldValue
+     * @param string|array $oldValue
      */
-    public function setOldValue(string $oldValue): void
+    public function setOldValue($oldValue): void
     {
         $this->oldValue = $oldValue;
     }

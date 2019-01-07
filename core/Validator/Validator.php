@@ -41,6 +41,14 @@ abstract class Validator
                 $result = call_user_func_array($validationFunc, $params);
                 if (!is_array($this->dataToValidate[$keys[0]])) {
                     $result->setOldValue($this->dataToValidate[$keys[0]]);
+                } elseif (count($this->dataToValidate[$keys[0]]['name'] ?? []) > 0) {
+                    $oldValues = [];
+
+                    for ($i = 0; $i < count($this->dataToValidate[$keys[0]]['name']); $i++) {
+                        $oldValues[] = $this->dataToValidate[$keys[0]]['name'][$i];
+                    }
+
+                    $result->setOldValue($oldValues);
                 }
                 $this->results[$key] = $result;
             } elseif (is_string($validationFunc)) {
@@ -63,6 +71,8 @@ abstract class Validator
                     $result = call_user_func_array($basicValidationRules[$funcName], array_merge([$key, $this->dataToValidate[$key]], $params));
                     if (!is_array($this->dataToValidate[$key])) {
                         $result->setOldValue($this->dataToValidate[$key]);
+                    } else {
+                        $result->setOldValue($this->dataToValidate[$key]['name'] ?? '');
                     }
 
                     if (isset($this->results[$key]) && $this->results[$key] instanceof ValidatorReport) {

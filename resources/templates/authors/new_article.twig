@@ -43,7 +43,7 @@
                     <label for="image">Úvodní obrázek</label>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="image" name="image" accept="image/x-png,image/jpeg">
-                        <label class="custom-file-label">{{ validator.reports.image.oldValue ?? article.image }}</label>
+                        <label class="custom-file-label">{{ validator.reports.image.oldValue is not empty ? validator.reports.image.oldValue : article.image ?? 'Vyberte obrázek...' }}</label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -79,7 +79,7 @@
                                 <label class="custom-file-label">Vyberte soubor...</label>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 text-right">
                             <button type="button" class="btn btn-danger delete-document">Smazat</button>
                         </div>
                     </div>
@@ -94,12 +94,28 @@
                                         <label class="custom-file-label">{{ document.path }}</label>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 text-right">
                                     <button type="button" class="btn btn-danger delete-document" data-id="{{ document.id }}">Smazat</button>
                                 </div>
                             </div>
                         {% endfor %}
                     {% endif %}
+                    {% for oldDocument in validator.reports.document_files.oldValue %}
+                        {% if oldDocument is not empty %}
+                            <div class="form-group row">
+                                <div class="col-md-10">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="document_files[]">
+                                        <input type="hidden" class="custom-file-input" name="old_document_files[]" value="{{ oldDocument }}">
+                                        <label class="custom-file-label">{{ oldDocument }}</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-right">
+                                    <button type="button" class="btn btn-danger delete-document">Smazat</button>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
                 <div class="form-group">
                     {% if validator.reports['document_files'].errorMessages %}
@@ -117,6 +133,10 @@
                 <hr>
                 {% if not edit %}
                     <button type="submit" class="btn btn-primary">Podat příspěvek ke schválení</button>
+                {% elseif not article.returned %}
+                    <div class="alert alert-warning">
+                        Příspěvek aktuálně čeká na vyřízení. Z toho důvodu ho aktuálně není možné editovat.
+                    </div>
                 {% else %}
                     <button type="submit" class="btn btn-warning">Podat příspěvek k opětovnému schválení</button>
                 {% endif %}

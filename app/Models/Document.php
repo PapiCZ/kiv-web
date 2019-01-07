@@ -17,7 +17,7 @@ class Document
         )->execute();
     }
 
-    public static function byArticleId($articleId)
+    public static function forArticle($articleId)
     {
         return Database::query(
             'SELECT * from documents WHERE article_id = :article_id',

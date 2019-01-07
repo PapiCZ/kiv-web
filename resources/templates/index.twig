@@ -3,6 +3,11 @@
 {% block text_content %}
     <h1 class="my-4">Příspěvky</h1>
 
+    {% if articles is empty %}
+        <div class="container text-center" style="margin-top: 20px; margin-bottom: 40px;">
+            <h5>Žádné příspěvky k zobrazení</h5>
+        </div>
+    {% endif %}
     {% for article in articles %}
         <div class="card mb-4">
             <img class="card-img-top" src="{{ baseUrl ~ '/storage/' ~ 'article_images/' ~ article.id ~ '/' ~ article.image }}">
@@ -18,12 +23,23 @@
         </div>
     {% endfor %}
 
-    <ul class="pagination justify-content-center mb-4">
-        <li class="page-item disabled">
-            <a class="page-link" href="#">← Novější</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link" href="#">Starší →</a>
-        </li>
-    </ul>
+    {% if articles is not empty %}
+        <ul class="pagination justify-content-center mb-4">
+            {% if query is not empty %}
+                <li class="page-item {{ currentPage == 0 ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ path('index.search.page', {page: currentPage - 1 >= 0 ? currentPage - 1 : 0, query: query}) }}">← Novější</a>
+                </li>
+                <li class="page-item {{ currentPage == lastPage ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ path('index.search.page', {page: currentPage + 1, query: query}) }}">Starší →</a>
+                </li>
+            {% else %}
+                <li class="page-item {{ currentPage == 0 ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ path('index.page', {page: currentPage - 1 >= 0 ? currentPage - 1 : 0}) }}">← Novější</a>
+                </li>
+                <li class="page-item {{ currentPage == lastPage ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ path('index.page', {page: currentPage + 1}) }}">Starší →</a>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
 {% endblock %}

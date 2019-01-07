@@ -20,11 +20,20 @@
                             <td class="col-3 align-middle">{{ article.title }}</td>
                             <td class="col-4 align-middle">{{ article.perex }}</td>
                             <td class="col-2 align-middle">{{ article.score }} / 10</td>
-                            <td class="col align-middle text-right"><a href="{{ path('reviewers.article.review', {'id': article.id}) }}" class="btn btn-primary">Zrecenzovat</a></td>
+                            <td class="col align-middle text-right"><a href="{{ path('reviewer.article.review', {'id': article.id}) }}" class="btn btn-primary">Zrecenzovat</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
+
+        <ul class="pagination justify-content-center mb-4">
+            <li class="page-item {{ currentPage == 0 ? 'disabled' : '' }}">
+                <a class="page-link" href="{{ path('reviewer.articles.page', {page: currentPage - 1 >= 0 ? currentPage - 1 : 0}) }}">← Předchozí</a>
+            </li>
+            <li class="page-item {{ currentPage == lastPage ? 'disabled' : '' }}">
+                <a class="page-link" href="{{ path('reviewer.articles.page', {page: currentPage + 1}) }}">Další →</a>
+            </li>
+        </ul>
     </div>
 {% endblock %}

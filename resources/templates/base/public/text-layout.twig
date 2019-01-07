@@ -8,12 +8,14 @@
         <div class="card my-4">
             <h5 class="card-header">Vyhledávání</h5>
             <div class="card-body">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Začněte psát...">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                <form>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Začněte psát..." name="search" value="{{ query }}">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

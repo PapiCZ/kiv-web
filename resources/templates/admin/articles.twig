@@ -6,6 +6,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th><i class="fa fa-hashtag"></i></th>
                         <th>Název</th>
                         <th>Perex</th>
                         <th>Hodnocení</th>
@@ -15,6 +16,7 @@
                 <tbody>
                     {% for article in articles %}
                         <tr>
+                            <td class="align-middle">{{ article.id }}</td>
                             <td class="align-middle">{{ article.title }}</td>
                             <td class="align-middle">{{ article.perex }}</td>
                             <td class="align-middle">{% if article.score is not null %}{{ article.score }} / 10{% else %}Nehodnoceno{% endif %}</td>
@@ -24,5 +26,14 @@
                 </tbody>
             </table>
         </div>
+
+        <ul class="pagination justify-content-center mb-4">
+            <li class="page-item {{ currentPage == 0 ? 'disabled' : '' }}">
+                <a class="page-link" href="{{ path('admin.articles.page', {page: currentPage - 1 >= 0 ? currentPage - 1 : 0}) }}">← Předchozí</a>
+            </li>
+            <li class="page-item {{ currentPage == lastPage ? 'disabled' : '' }}">
+                <a class="page-link" href="{{ path('admin.articles.page', {page: currentPage + 1}) }}">Další →</a>
+            </li>
+        </ul>
     </div>
 {% endblock %}

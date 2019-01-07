@@ -26,5 +26,14 @@
                 </tbody>
             </table>
         </div>
+
+        <ul class="pagination justify-content-center mb-4">
+            <li class="page-item {{ currentPage == 0 ? 'disabled' : '' }}">
+                <a class="page-link" href="{{ path('admin.users.page', {page: currentPage - 1 >= 0 ? currentPage - 1 : 0}) }}">← Předchozí</a>
+            </li>
+            <li class="page-item {{ currentPage == lastPage ? 'disabled' : '' }}">
+                <a class="page-link" href="{{ path('admin.users.page', {page: currentPage + 1}) }}">Další →</a>
+            </li>
+        </ul>
     </div>
 {% endblock %}

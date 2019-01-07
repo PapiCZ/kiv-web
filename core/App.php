@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use App\Models\Role;
 use Core\Database\Database;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
@@ -37,9 +38,18 @@ class App
         $this->db = $db;
     }
 
-    public function runController(string $class, string $method, array $parameters)
+    public function runController(string $route, string $class, string $method, array $parameters)
     {
-        $result = call_user_func_array([new $class(), $method], $parameters);
+        $role = explode('.', $route)[0];
+        if (Role::getByName($role)) {
+            if (empty($_SESSION['user']) || (!empty($_SESSION['user']) && !in_array($role, array_keys($_SESSION['user']['roles'], true)))) {
+                $result = view('403.twig');
+            } else {
+                $result = call_user_func_array([new $class(), $method], $parameters);
+            }
+        } else {
+            $result = call_user_func_array([new $class(), $method], $parameters);
+        }
 
         if ($result instanceof View) {
             $data = $result->getData();
@@ -59,7 +69,7 @@ class App
         } elseif ($result instanceof Redirect) {
             $_SESSION['flash'] = $result->getFlashData();
 
-            $urlGenerator = new UrlGenerator($this->router->getRoutes(), $this->requestContext);
+            $urlGenerator = new UrlGenerator($this->router->getRoutes(), $this->requestContext, null, getenv('URLS_TYPE'));
             header('Location: ' . $urlGenerator->generate($result->getRouteName(), $result->getArgs()), true);
         } elseif ($result instanceof Response) {
             echo $result->serialize();

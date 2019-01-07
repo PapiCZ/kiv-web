@@ -3,6 +3,11 @@
     {{ include('@project/base/navbar.twig') }}
 
     <div class="container main-container">
+        {% if session.flash.__SUCCESS__ is not empty %}
+            <div class="alert alert-success">
+                {{ session.flash.__SUCCESS__ }}
+            </div>
+        {% endif %}
         <div class="row content">
             {% block content %}{% endblock %}
         </div>

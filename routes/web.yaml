@@ -1,137 +1,241 @@
-################
-## PUBLIC WEB ##
-################
-
-index:
-    path:       /
-    controller: App\Http\Controllers\IndexController::index
-
-# Only for template system purposes
-base:
-    path:       /
-
-article:
-    path:       /article/{id}
-    controller: App\Http\Controllers\ArticleController::showArticle
-
-login:
-    path:       /login
-    controller: App\Http\Controllers\LoginController::login
-    methods:    [POST]
-
-logout:
-    path:       /logout
-    controller: App\Http\Controllers\LoginController::logout
-
-registration.form:
-    path:       /register
-    controller: App\Http\Controllers\RegistrationController::showRegistrationForm
-    methods:    [GET]
-
-register:
-    path:       /register
-    controller: App\Http\Controllers\RegistrationController::register
-    methods:    [POST]
-
-about:
-    path:       /about
-    controller: App\Http\Controllers\AboutController::about
-
 ####################
 ## ADMINISTRATION ##
 ####################
 
 admin.users:
-    path:       /admin/users
     controller: App\Http\Controllers\Admin\UsersController::showUsers
+    path:
+        cool:   /admin/users
+        ugly:   /?page=admin&subpage=users
+
+admin.users.page:
+    controller: App\Http\Controllers\Admin\UsersController::showUsers
+    path:
+        cool:   /admin/users/page/{page}
+        ugly:   /?page=admin&subpage=users&pagenum={page}
 
 admin.user.detail:
-    path:       /admin/user/{id}
     controller: App\Http\Controllers\Admin\UsersController::showUserDetail
+    path:
+        cool:   /admin/user/{id}
+        ugly:   /?page=admin&subpage=user&id={id}
 
 admin.articles:
-    path:       /admin/articles
     controller: App\Http\Controllers\Admin\ArticlesController::showArticles
+    path:
+        cool:   /admin/articles
+        ugly:   /?page=admin&subpage=articles
+
+admin.articles.page:
+    controller: App\Http\Controllers\Admin\ArticlesController::showArticles
+    path:
+        cool:   /admin/articles/page/{page}
+        ugly:   /?page=admin&subpage=articles&pagenum={page}
 
 admin.article.detail:
-    path:       /admin/article/{id}
     controller: App\Http\Controllers\Admin\ArticlesController::showArticleDetail
     methods:    [GET]
+    path:
+        cool:   /admin/article/{id}
+        ugly:   /?page=admin&subpage=article&id={id}
 
 admin.article.assign:
-    path:       /admin/article/assign-reviewer
     controller: App\Http\Controllers\Admin\ArticlesController::assignReviewer
     methods:    [POST]
+    path:
+        cool:   /admin/article/assign-reviewer
+        ugly:   /?page=admin&subpage=article&action=assign-reviewer
 
 admin.article.detail.submit:
-    path:       /admin/article/{id}
     controller: App\Http\Controllers\Admin\ArticlesController::submitDetail
     methods:    [POST]
+    path:
+        cool:   /admin/article/{id}
+        ugly:   /?page=admin&subpage=article&id={id}
 
 admin.user.update-roles:
-    path:       /admin/user/{id}/update-roles
     controller: App\Http\Controllers\Admin\UsersController::updateRoles
     methods:    [POST]
+    path:
+        cool:   /admin/user/{id}/update-roles
+        ugly:   /?page=admin&subpage=article&id={id}&action=update-roles
 
 admin.user.ban:
-    path:       /admin/user/{id}/ban
     controller: App\Http\Controllers\Admin\UsersController::ban
+    path:
+        cool:   /admin/user/{id}/ban
+        ugly:   /?page=admin&subpage=user&id={id}&action=ban
 
 admin.user.unban:
-    path:       /admin/user/{id}/unban
     controller: App\Http\Controllers\Admin\UsersController::unban
+    path:
+        cool:   /admin/user/{id}/unban
+        ugly:   /?page=admin&subpage=user&id={id}&action=unban
 
 admin.user.delete:
-    path:       /admin/user/{id}/delete
     controller: App\Http\Controllers\Admin\UsersController::delete
+    path:
+        cool:   /admin/user/{id}/delete
+        ugly:   /?page=admin&subpage=user&id={id}&action=delete
 
 admin.review.delete:
-    path:       /admin/review/delete
     controller: App\Http\Controllers\Admin\ReviewsController::delete
     methods:    [POST]
+    path:
+        cool:   /admin/review/delete
+        ugly:   /?page=admin&subpage=review&actiondelete
 
-      #################
-      ## FOR AUTHORS ##
-      #################
+        #################
+        ## FOR AUTHORS ##
+        #################
 
-authors.articles.my:
-    path:       /authors/articles/my
+author.articles.my:
     controller: App\Http\Controllers\Authors\ArticlesController::showMyArticles
+    path:
+        cool:   /authors/articles/my
+        ugly:   /?page=authors&subpage=articles&subsubpage=my
 
-authors.article.new:
-    path:       /authors/article/new
+author.articles.my.page:
+    controller: App\Http\Controllers\Authors\ArticlesController::showMyArticles
+    path:
+        cool:   /authors/articles/my/page/{page}
+        ugly:   /?page=authors&subpage=articles&subsubpage=my&pagenum={page}
+
+author.article.new:
     controller: App\Http\Controllers\Authors\ArticlesController::showNewArticleForm
     methods:    [GET]
+    path:
+        cool:   /authors/article/new
+        ugly:   /?page=authors&subpage=article&action=new
 
-authors.article.create:
-    path:       /authors/article/new
+author.article.create:
     controller: App\Http\Controllers\Authors\ArticlesController::createNewArticle
     methods:    [POST]
+    path:
+        cool:   /authors/article/new
+        ugly:   /?page=authors&subpage=article&action=new
 
-authors.article.edit.form:
-    path:       /authors/article/edit/{id}
+author.article.edit.form:
     controller: App\Http\Controllers\Authors\ArticlesController::showEditArticleForm
     methods:    [GET]
+    path:
+        cool:   /authors/article/edit/{id}
+        ugly:   /?page=authors&subpage=article&action=edit&id={id}
 
-authors.article.edit:
-    path:       /authors/article/edit/{id}
+author.article.edit:
     controller: App\Http\Controllers\Authors\ArticlesController::editArticle
     methods:    [POST]
+    path:
+        cool:   /authors/article/edit/{id}
+        ugly:   /?page=authors&subpage=article&action=edit&id={id}
 
 ###################
 ## FOR REVIEWERS ##
 ###################
 
-reviewers.articles:
-    path:       /reviewers/articles
+reviewer.articles:
     controller: App\Http\Controllers\Reviewers\ArticlesController::showArticles
+    path:
+        cool:   /reviewers/articles
+        ugly:   /?page=reviewers&subpage=articles
 
-reviewers.article.review:
-    path:       /reviewers/article-review/{id}
+reviewer.articles.page:
+    controller: App\Http\Controllers\Reviewers\ArticlesController::showArticles
+    path:
+        cool:   /reviewers/articles/page/{page}
+        ugly:   /?page=reviewers&subpage=articles&pagenum={page}
+
+reviewer.article.review:
     controller: App\Http\Controllers\Reviewers\ArticlesController::showArticleReviewForm
     methods:    [GET]
+    path:
+        cool:   /reviewers/article-review/{id}
+        ugly:   /?page=reviewers&subpage=article-review&id={id}
 
-reviewers.article.review.submit:
-    path:       /reviewers/article-review/{id}
+reviewer.article.review.submit:
     controller: App\Http\Controllers\Reviewers\ArticlesController::saveArticleReview
     methods:    [POST]
+    path:
+        cool:   /reviewers/article-review/{id}
+        ugly:   /?page=reviewers&subpage=article-review&id={id}
+
+################
+## PUBLIC WEB ##
+################
+
+index:
+    controller: App\Http\Controllers\IndexController::index
+    path:
+        cool:   /
+        ugly:   /
+
+# Only for template system purposes
+base:
+    path:
+        cool:   /
+        ugly:   /
+
+article:
+    controller: App\Http\Controllers\ArticleController::showArticle
+    path:
+        cool:   /article/{id}
+        ugly:   /?page=article&id={id}
+
+login:
+    controller: App\Http\Controllers\LoginController::login
+    methods:    [POST]
+    path:
+        cool:   /login
+        ugly:   /?page=login
+
+logout:
+    controller: App\Http\Controllers\LoginController::logout
+    path:
+        cool:   /logout
+        ugly:   /?page=logout
+
+registration.form:
+    controller: App\Http\Controllers\RegistrationController::showRegistrationForm
+    methods:    [GET]
+    path:
+        cool:   /register
+        ugly:   /?page=register
+
+register:
+    controller: App\Http\Controllers\RegistrationController::register
+    methods:    [POST]
+    path:
+        cool:   /register
+        ugly:   /?page=register
+
+about:
+    controller: App\Http\Controllers\AboutController::about
+    path:
+        cool:   /about
+        ugly:   /?page=about
+
+banned:
+    controller: App\Http\Controllers\BanController::showBanned
+    path:
+        cool:   /banned
+        ugly:   /?page=banned
+
+index.search.page:
+    controller: App\Http\Controllers\IndexController::index
+    path:
+        cool:   /page/{page}?search={query}
+        ugly:   /?page={page}?search={query}
+
+index.search:
+    controller: App\Http\Controllers\IndexController::indexZeroPage
+    path:
+        cool:   /?search={query}
+        ugly:   /?search={query}
+
+index.page:
+    controller: App\Http\Controllers\IndexController::index
+    path:
+        cool:   /page/{page}
+        ugly:   /?page={page}
+
+

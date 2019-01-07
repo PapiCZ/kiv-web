@@ -8,9 +8,23 @@ use Core\View;
 
 class IndexController extends Controller
 {
-    public function index()
+    public function indexZeroPage($query = '')
     {
-        $this->data['articles'] = Article::all();
+        return $this->index(0, $query);
+    }
+
+    public function index(int $page = 0, $query = '')
+    {
+        if (!empty($query)) {
+            $this->data['query'] = $query;
+            $this->data['articles'] = Article::paginateSearchPublished('%' . $query . '%', getenv('ARTICLES_PER_PAGE'), $page);
+        } else {
+            $this->data['articles'] = Article::paginatePublished(getenv('ARTICLES_PER_PAGE'), $page);
+        }
+
+        $this->data['currentPage'] = $page;
+        $this->data['count'] = Article::countPublished();
+        $this->data['lastPage'] = ceil(max(0, $this->data['count'] / getenv('ARTICLES_PER_PAGE') - 1));
 
         return new View('index.twig', $this->data);
     }

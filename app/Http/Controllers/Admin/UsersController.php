@@ -8,9 +8,12 @@ use Core\Controller;
 
 class UsersController extends Controller
 {
-    public function showUsers()
+    public function showUsers($page = 0)
     {
-        $this->data['users'] = User::all();
+        $this->data['users'] = User::paginate(getenv('TABLE_ENTRIES_PER_PAGE'), $page);
+
+        $this->data['currentPage'] = $page;
+        $this->data['lastPage'] = ceil(max(0, User::count() / getenv('TABLE_ENTRIES_PER_PAGE') - 1));
 
         return view('admin/users.twig', $this->data);
     }
@@ -43,27 +46,27 @@ class UsersController extends Controller
             User::deleteRole($id, Role::getByName($role)['id'] ?? '');
         }
 
-        return redirect('admin.user.detail', ['id' => $id]);
+        return redirect('admin.user.detail', ['id' => $id])->with(['__SUCCESS__' => 'Role byla úspěně aktualizována']);
     }
 
     public function ban($id)
     {
         User::ban($id);
 
-        return redirect('admin.user.detail', ['id' => $id]);
+        return redirect('admin.user.detail', ['id' => $id])->with(['__SUCCESS__' => 'Uživatel byl úspěšně zablokován']);
     }
 
     public function unban($id)
     {
         User::unban($id);
 
-        return redirect('admin.user.detail', ['id' => $id]);
+        return redirect('admin.user.detail', ['id' => $id])->with(['__SUCCESS__' => 'Uživatel byl úspěšně odblokován']);
     }
 
     public function delete($id)
     {
         User::delete($id);
 
-        return redirect('admin.users');
+        return redirect('admin.users')->with(['__SUCCESS__' => 'Uživatel byl úspěšně smazán']);
     }
 }

@@ -32,6 +32,14 @@ class Storage
     }
 
     /**
+     * @return string
+     */
+    public function getAbsolutePath(): string
+    {
+        return realpath($this->rootPath . '/' . $this->storageName);
+    }
+
+    /**
      * @param string $sourceFile
      * @param string $targetRelativePathToStorage
      * @return bool

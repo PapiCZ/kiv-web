@@ -21,6 +21,25 @@ class User
             ])->fetch();
     }
 
+    public static function paginate(int $entriesPerPage, int $page = 0)
+    {
+        return Database::query(
+            'SELECT * FROM users
+            LIMIT :limit OFFSET :offset',
+            [
+                'limit'  => $entriesPerPage,
+                'offset' => $page * $entriesPerPage,
+            ]
+        )->fetchAll();
+    }
+
+    public static function count()
+    {
+        return Database::query(
+            'SELECT COUNT(*) as count FROM users'
+        )->fetch()['count'];
+    }
+
     public static function create($username, $name, $surname, $email, $password)
     {
         return Database::query(
@@ -41,6 +60,19 @@ class User
             'SELECT * FROM articles WHERE user_id = :user_id',
             [
                 'user_id' => $id,
+            ]
+        )->fetchAll();
+    }
+
+    public static function getPaginateArticles(int $id, int $entriesPerPage, int $page = 0)
+    {
+        return Database::query(
+            'SELECT * FROM articles WHERE user_id = :user_id
+            LIMIT :limit OFFSET :offset',
+            [
+                'user_id' => $id,
+                'limit'   => $entriesPerPage,
+                'offset'  => $page * $entriesPerPage,
             ]
         )->fetchAll();
     }
@@ -66,12 +98,13 @@ class User
             ])->fetchAll();
     }
 
-    public static function notAssignedToArticle($id)
+    public static function reviewersNotAssignedToArticle($id)
     {
         return Database::query(
             'SELECT u.* FROM users u
             LEFT OUTER JOIN reviews r ON u.id = r.user_id
-            WHERE r.article_id IS NULL OR r.article_id != :id',
+            INNER JOIN user_role ur on u.id = ur.user_id
+            WHERE ur.role_id = 3 AND (r.article_id IS NULL OR r.article_id != :id)',
             [
                 'id' => $id,
             ]

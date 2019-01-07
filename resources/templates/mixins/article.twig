@@ -10,7 +10,7 @@
 
 <hr>
 
-<img class="img-fluid rounded" src="{{ baseUrl ~ '/storage/' ~ 'article_images/' ~ article.id ~ '/' ~ article.image }}">
+<img class="img-fluid rounded" src="{{ baseUrl ~ '/storage/article_images/' ~ article.id ~ '/' ~ article.image }}">
 
 <hr>
 
@@ -19,6 +19,17 @@
 <hr>
 
 {{ article.content | raw }}
+
+{% if article.documents is not empty %}
+    <hr>
+
+    <label for="documents">Dokumenty</label>
+    <div id="documents">
+        {% for document in article.documents %}
+            <a href="{{ baseUrl ~ '/storage/documents/' ~ article.id ~ '/' ~ document.path }}" target="_blank" style="padding: 5px;"><div><i class="fa fa-file"></i> &nbsp;{{ document.path }}</div></a>
+        {% endfor %}
+    </div>
+{% endif %}
 
 <script>
     const articleId = '{{ article.id }}'

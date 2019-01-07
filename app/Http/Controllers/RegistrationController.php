@@ -27,7 +27,7 @@ class RegistrationController extends Controller
 
             storage('public/user')->moveToStorage($_FILES['avatar']['tmp_name'], (string)$userId);
 
-            return redirect('index');
+            return redirect('index')->with(['__SUCCESS__' => 'Děkujeme za Vaší registraci. Nyní se můžete přihlásit.']);
         } else {
             return redirect('registration.form')->withValidatorReports($validator->getReports());
         }

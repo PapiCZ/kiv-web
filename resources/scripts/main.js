@@ -1,7 +1,8 @@
+import $ from 'jquery'
+import modal from 'bootstrap/js/dist/modal'
 import 'bootstrap/js/dist/popover'
 import 'bootstrap/js/dist/dropdown'
-import modal from 'bootstrap/js/dist/modal'
-import $ from 'jquery'
+import 'bootstrap/js/dist/collapse'
 
 $(function () {
     let loginForm = $("#login-popover").html();

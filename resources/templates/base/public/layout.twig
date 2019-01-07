@@ -16,6 +16,11 @@
     </header>
 
     <div class="container">
+        {% if session.flash.__SUCCESS__ is not empty %}
+            <div class="alert alert-success">
+                {{ session.flash.__SUCCESS__ }}
+            </div>
+        {% endif %}
         <div class="row content">
             {% block content %}{% endblock %}
         </div>

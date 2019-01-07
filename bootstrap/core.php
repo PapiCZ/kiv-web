@@ -5,7 +5,7 @@ use Core\Database\Database;
 use Core\Router;
 use Core\Validator\ValidatorFields;
 use Core\Validator\ValidatorMessages;
-use Symfony\Bridge\Twig\Extension\RoutingExtension;
+use Core\CustomRoutingExtension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
@@ -28,7 +28,7 @@ $context->setQueryString($_SERVER['QUERY_STRING']);
 
 $router = new Router($context, new FileLocator([__DIR__ . '/../routes']), 'web.yaml');
 
-list($class, $method, $parameters) = $router->getControllerInfo();
+list($class, $method, $parameters, $route) = $router->getControllerInfo();
 
 // Setup validator messages and fields
 ValidatorMessages::createSingleValidatorMessages(Yaml::parse(file_get_contents(__DIR__ . '/../resources/validation/messages.yaml')));
@@ -43,7 +43,7 @@ $twig = new Twig_Environment($loader, [
 
 $loader->addPath(__DIR__ . '/../resources/templates', 'project');
 
-$twig->addExtension(new RoutingExtension(new UrlGenerator($router->getRoutes(), $context)));
+$twig->addExtension(new CustomRoutingExtension(new UrlGenerator($router->getRoutes(), $context, null, getenv('URLS_TYPE'))));
 $twig->addFunction(new Twig_Function('getenv', function ($variableName) {
     return getenv($variableName);
 }));
@@ -59,4 +59,4 @@ if (getenv('DEBUG')) {
 $db = Database::createSingleDatabaseConnection(getenv('MYSQL_HOST'), getenv('MYSQL_DATABASE'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
 
 $app = new App($context, $router, $twig, $db);
-$app->runController($class, $method, $parameters);
+$app->runController($route, $class, $method, $parameters);

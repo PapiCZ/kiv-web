@@ -35,12 +35,101 @@ class Article
         )->execute();
     }
 
+    public static function updateImage($id, $image)
+    {
+        return Database::query(
+            'UPDATE articles SET image = :image WHERE id = :id',
+            [
+                'id'    => $id,
+                'image' => $image,
+            ]
+        )->execute();
+    }
+
     public static function all()
     {
         return Database::query(
             'SELECT a.*, u.username, u.name, u.surname FROM articles a
-            INNER JOIN users u ON u.id = a.user_id')
-            ->fetchAll();
+            INNER JOIN users u ON u.id = a.user_id'
+        )->fetchAll();
+    }
+
+    public static function paginate(int $entriesPerPage, int $page = 0)
+    {
+        return Database::query(
+            'SELECT a.*, u.username, u.name, u.surname FROM (
+              SELECT * FROM articles
+              LIMIT :limit OFFSET :offset
+            ) a
+            INNER JOIN users u ON u.id = a.user_id',
+            [
+                'limit'  => $entriesPerPage,
+                'offset' => $page * $entriesPerPage,
+            ]
+        )->fetchAll();
+    }
+
+    public static function paginatePublished(int $entriesPerPage, int $page = 0)
+    {
+        return Database::query(
+            'SELECT a.*, u.username, u.name, u.surname FROM (
+              SELECT * FROM articles
+              WHERE published = 1
+              LIMIT :limit OFFSET :offset
+            ) a
+            INNER JOIN users u ON u.id = a.user_id
+            ORDER BY a.id DESC',
+            [
+                'limit'  => $entriesPerPage,
+                'offset' => $page * $entriesPerPage,
+            ]
+        )->fetchAll();
+    }
+
+    public static function paginateSearchPublished($query, int $entriesPerPage, int $page = 0)
+    {
+        return Database::query(
+            'SELECT a.*, u.username, u.name, u.surname FROM (
+              SELECT * FROM articles
+              WHERE published = 1 AND (title LIKE :query OR perex LIKE :query1 OR content LIKE :query2) 
+              LIMIT :limit OFFSET :offset
+            ) a
+            INNER JOIN users u ON u.id = a.user_id
+            ORDER BY a.id DESC',
+            [
+                'query'  => $query,
+                'query1'  => $query,
+                'query2'  => $query,
+                'limit'  => $entriesPerPage,
+                'offset' => $page * $entriesPerPage,
+            ]
+        )->fetchAll();
+    }
+
+    public static function countPublished()
+    {
+        return Database::query(
+            'SELECT COUNT(*) as count FROM articles
+            WHERE published = 1'
+        )->fetch()['count'];
+    }
+
+    public static function count()
+    {
+        return Database::query(
+            'SELECT COUNT(*) as count FROM articles'
+        )->fetch()['count'];
+    }
+
+    public static function countForUser($id)
+    {
+        return Database::query(
+            'SELECT COUNT(*) as count FROM articles
+            WHERE user_id = :id',
+            [
+                'id' => $id,
+            ]
+        )->fetch()['count'];
     }
 
     public static function get(int $id)
@@ -58,7 +147,7 @@ class Article
     public static function getByReviewId(int $id)
     {
         return Database::query(
-            'SELECT a.*, u.username, u.name, u.surname, r.score_topic, r.score_content, r.score_readability FROM articles a
+            'SELECT a.*, u.username, u.name, u.surname, r.score_topic, r.score_content, r.score_readability, r.user_id as author_id FROM articles a
             INNER JOIN users u ON u.id = a.user_id
             INNER JOIN reviews r on a.id = r.article_id
             WHERE r.id = :id
