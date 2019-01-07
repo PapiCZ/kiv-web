@@ -17,7 +17,6 @@
             <tbody>
                 {% for reviewer in reviewers %}
                     <tr>
-                        {{ dump(reviewer) }}
                         <td class="align-middle">{{ reviewer.name }} {{ reviewer.surname }} ({{ reviewer.username }})</td>
                         <td class="align-middle">{{ reviewer.score_topic ? reviewer.score_topic ~ ' / 10' : 'Nehodnoceno' }}</td>
                         <td class="align-middle">{{ reviewer.score_content ? reviewer.score_content ~ ' / 10' : 'Nehodnoceno' }}</td>
